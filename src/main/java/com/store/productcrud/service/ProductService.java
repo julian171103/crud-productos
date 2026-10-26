@@ -43,9 +43,9 @@ public class ProductService {
         Product existente = buscarPorId(id);
         validar(datos);
 
-        existente.setNombre(datos.getNombre());
-        existente.setDescripcion(datos.getDescripcion());
-        existente.setPrecio(datos.getPrecio());
+        existente.setName(datos.getName());
+        existente.setDescription(datos.getDescription());
+        existente.setPrice(datos.getPrice());
         existente.setStock(datos.getStock());
 
         return productRepository.save(existente);
@@ -60,16 +60,16 @@ public class ProductService {
     }
 
     private void validar(Product product) {
-        if (product.getNombre() == null || product.getNombre().isBlank()) {
+        if (product.getName() == null || product.getName().isBlank()) {
             throw new InvalidDataException("El nombre es obligatorio");
         }
-        if (product.getNombre().length() > 100) {
+        if (product.getName().length() > 100) {
             throw new InvalidDataException("El nombre no puede superar 100 caracteres");
         }
-        if (product.getDescripcion() != null && product.getDescripcion().length() > 255) {
+        if (product.getDescription() != null && product.getDescription().length() > 255) {
             throw new InvalidDataException("La descripción no puede superar 255 caracteres");
         }
-        if (product.getPrecio() == null || product.getPrecio().compareTo(BigDecimal.ZERO) < 0) {
+        if (product.getPrice() == null || product.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidDataException("El precio es obligatorio y no puede ser negativo");
         }
         if (product.getStock() == null || product.getStock() < 0) {
