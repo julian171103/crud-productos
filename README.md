@@ -1,14 +1,16 @@
-# CRUD Productos
+# CRUD Products
 
-Store inventory web application. It exposes a REST API to create, read, update and delete products (CRUD), stores them in PostgreSQL, and includes a simple web page (HTML, CSS and JavaScript) to manage them from the browser.
+A web application for managing a product inventory. It provides a REST API to create, read, update, and delete products (CRUD), stores product data in PostgreSQL, and includes a web interface built with HTML, CSS, and vanilla JavaScript.
 
 ## Technologies
 
 - Java 25
-- Spring Boot 4.1.1 (Spring Web MVC, Spring Data JPA)
+- Spring Boot 4.1.1
+- Spring Web MVC
+- Spring Data JPA
 - PostgreSQL
-- Maven (wrapper included)
-- HTML, CSS and vanilla JavaScript for the frontend
+- Maven Wrapper
+- HTML, CSS, and vanilla JavaScript
 
 ## Requirements
 
@@ -17,77 +19,107 @@ Store inventory web application. It exposes a REST API to create, read, update a
 
 ## Setup
 
-1. Create the database:
+### 1. Clone the repository
 
-   ```sql
-   CREATE DATABASE crud_web_db;
-   ```
+```bash
+git clone https://github.com/julian171103/crud-productos.git
+cd crud-productos
+```
 
-2. Open `src/main/resources/application.properties` and set your own PostgreSQL credentials:
+### 2. Create the database
 
-   ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/crud_web_db
-   spring.datasource.username=YOUR_USER
-   spring.datasource.password=YOUR_PASSWORD
-   ```
+Connect to PostgreSQL and execute:
 
-   The `productos` table is created automatically on the first run (`spring.jpa.hibernate.ddl-auto=update`).
+```sql
+CREATE DATABASE crud_web_db;
+```
 
-## Run
+### 3. Configure database credentials
+
+The application reads the PostgreSQL username and password from environment variables.
+
+Configure these variables in your environment or in the IntelliJ run configuration:
+
+- `DB_USERNAME`: your PostgreSQL username
+- `DB_PASSWORD`: your PostgreSQL password
+
+The database connection URL is:
+
+```text
+jdbc:postgresql://localhost:5432/crud_web_db
+```
+
+Do not commit real database credentials to the repository.
+
+Hibernate manages the database schema according to the JPA configuration in `application.properties`. The `products` table is used to store product records.
+
+## Run the application
+
+On Windows, run:
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+On Linux or macOS, run:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-On Windows:
+Open the application in your browser:
 
-```bash
-mvnw.cmd spring-boot:run
-```
-
-Then open <http://localhost:8080> in your browser.
+http://localhost:8080
 
 ## Web interface
 
-- Product cards with name, description, price and stock
-- Search by name or description
-- Click a card to see its detail, edit it or delete it
-- Create new products with the "Nuevo producto" button
-- Stock labels: "Agotado" (0), "Stock bajo" (less than 10)
+The web interface allows users to:
+
+- View product cards with name, description, price, and stock.
+- Search products by name or description.
+- Select a product to view its details.
+- Create new products.
+- Edit existing products.
+- Delete products.
+- View stock status labels:
+   - `Agotado`: stock is zero.
+   - `Stock bajo`: stock is below 10.
 
 ## REST API
 
-Base URL: `/api/productos`
+Base URL: `/api/products`
 
-| Method | Endpoint              | Description            | Success response |
-| ------ | --------------------- | ---------------------- | ---------------- |
-| GET    | `/api/productos`      | List all products      | `200 OK`         |
-| GET    | `/api/productos/{id}` | Get a product by id    | `200 OK`         |
-| POST   | `/api/productos`      | Create a product       | `201 Created`    |
-| PUT    | `/api/productos/{id}` | Update a product       | `200 OK`         |
-| DELETE | `/api/productos/{id}` | Delete a product       | `204 No Content` |
+| Method | Endpoint | Description | Success response |
+|---|---|---|---|
+| GET | `/api/products` | List all products | `200 OK` |
+| GET | `/api/products/{id}` | Get a product by ID | `200 OK` |
+| POST | `/api/products` | Create a product | `201 Created` |
+| PUT | `/api/products/{id}` | Update a product | `200 OK` |
+| DELETE | `/api/products/{id}` | Delete a product | `204 No Content` |
 
-### Product format
+### Product JSON format
+
+Example request body for creating a product:
 
 ```json
 {
-  "nombre": "Laptop",
-  "descripcion": "15 inch, 16 GB RAM",
-  "precio": 899.99,
+  "name": "Laptop",
+  "description": "15 inch, 16 GB RAM",
+  "price": 899.99,
   "stock": 12
 }
 ```
 
 ### Validation rules
 
-- `nombre`: required, maximum 100 characters
-- `descripcion`: optional, maximum 255 characters
-- `precio`: required, cannot be negative
-- `stock`: required, cannot be negative
+- `name`: required, maximum 100 characters.
+- `description`: optional, maximum 255 characters.
+- `price`: required, cannot be negative.
+- `stock`: required, cannot be negative.
 
-### Error response
+### Error responses
 
-Errors return the corresponding HTTP status and a JSON body:
+Errors return an appropriate HTTP status and a JSON response. For example:
 
 ```json
 {
@@ -97,25 +129,47 @@ Errors return the corresponding HTTP status and a JSON body:
 }
 ```
 
-| Status | When                                                        |
-| ------ | ----------------------------------------------------------- |
-| 400    | Invalid data, malformed JSON, or a non-numeric id in the URL |
-| 404    | The product does not exist                                  |
+| Status | Description |
+|---|---|
+| `400 Bad Request` | Invalid data, malformed JSON, or a non-numeric ID in the URL. |
+| `404 Not Found` | The requested product does not exist. |
 
 ## Project structure
 
+```text
+src/
+├── main/
+│   ├── java/com/store/productcrud/
+│   │   ├── controller/   REST API controllers
+│   │   ├── service/      Business logic and validation
+│   │   ├── repository/   Database access
+│   │   ├── model/        JPA entities
+│   │   └── exception/    Custom exceptions and error handling
+│   └── resources/
+│       ├── application.properties
+│       └── static/
+│           ├── index.html
+│           ├── styles.css
+│           └── app.js
+└── test/
+    └── java/             Automated tests
 ```
-src/main/java/com/tienda/crudproductos
-├── controller   REST endpoints (ProductoController)
-├── service      Business logic and validation (ProductoService)
-├── repository   Database access (ProductoRepository)
-├── model        JPA entity (Producto)
-└── exception    Custom exceptions and error handler (ManejadorErrores)
 
-src/main/resources
-├── application.properties
-└── static       Frontend (index.html, styles.css, app.js)
+## Testing
+
+On Windows, run:
+
+```powershell
+.\mvnw.cmd test
 ```
+
+On Linux or macOS, run:
+
+```bash
+./mvnw test
+```
+
+Make sure the required environment variables and database configuration are available when running tests that need PostgreSQL.
 
 ## Author
 
