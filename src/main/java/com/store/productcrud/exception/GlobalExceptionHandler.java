@@ -1,4 +1,4 @@
-package com.tienda.crudproductos.exception;
+package com.store.productcrud.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +10,15 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.Map;
 
 @RestControllerAdvice
-public class ManejadorErrores {
+public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProductoNoEncontradoException.class)
-    public ResponseEntity<Map<String, Object>> noEncontrado(ProductoNoEncontradoException ex) {
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> noEncontrado(ProductNotFoundException ex) {
         return respuesta(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(DatoInvalidoException.class)
-    public ResponseEntity<Map<String, Object>> datoInvalido(DatoInvalidoException ex) {
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<Map<String, Object>> datoInvalido(InvalidDataException ex) {
         return respuesta(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
