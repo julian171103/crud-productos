@@ -8,7 +8,7 @@
         <version>4.1.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.tienda</groupId>
+    <groupId>com.store</groupId>
     <artifactId>crud-productos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>crud-productos</name>

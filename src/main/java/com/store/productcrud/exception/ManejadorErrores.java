@@ -1,4 +1,4 @@
-package com.tienda.crudproductos.exception;
+package com.store.productcrud.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

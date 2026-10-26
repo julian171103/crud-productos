@@ -1,4 +1,4 @@
-package com.tienda.crudproductos.model;
+package com.store.productcrud.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
