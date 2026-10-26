@@ -1,9 +1,9 @@
-package com.tienda.crudproductos.service;
+package com.store.productcrud.service;
 
-import com.tienda.crudproductos.exception.DatoInvalidoException;
-import com.tienda.crudproductos.exception.ProductoNoEncontradoException;
-import com.tienda.crudproductos.model.Producto;
-import com.tienda.crudproductos.repository.ProductoRepository;
+import com.store.productcrud.exception.DatoInvalidoException;
+import com.store.productcrud.exception.ProductoNoEncontradoException;
+import com.store.productcrud.model.Producto;
+import com.store.productcrud.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,7 +1,7 @@
-package com.tienda.crudproductos.controller;
+package com.store.productcrud.controller;
 
-import com.tienda.crudproductos.model.Producto;
-import com.tienda.crudproductos.service.ProductoService;
+import com.store.productcrud.model.Producto;
+import com.store.productcrud.service.ProductoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

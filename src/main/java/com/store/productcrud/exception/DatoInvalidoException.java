@@ -1,4 +1,4 @@
-package com.tienda.crudproductos.exception;
+package com.store.productcrud.exception;
 
 public class DatoInvalidoException extends RuntimeException {
 
