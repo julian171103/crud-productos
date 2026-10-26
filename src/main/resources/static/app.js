@@ -1,5 +1,5 @@
 // Address of our Spring Boot backend (same server, so no full URL is needed)
-const API_URL = '/api/productos';
+const API_URL = '/api/products';
 
 // Below this number the stock is shown as "low"
 const LOW_STOCK = 10;
@@ -32,7 +32,7 @@ let selectedProduct = null;
 // The product that is being edited in the form (null when we are creating a new one)
 let editingProduct = null;
 
-// The backend sends the fields in Spanish (nombre, descripcion, precio, stock),
+// The backend sends the fields in English (name, description, price, stock),
 // so we must use those same names when we read or send a product.
 
 
@@ -59,8 +59,8 @@ function showProducts() {
 
   // Keep only the products whose name or description contains the text
   const filtered = products.filter(function (product) {
-    const name = product.nombre.toLowerCase();
-    const description = (product.descripcion || '').toLowerCase();
+    const name = product.name.toLowerCase();
+    const description = (product.description || '').toLowerCase();
     return name.includes(text) || description.includes(text);
   });
 
@@ -96,14 +96,14 @@ function createCard(product) {
   card.className = 'card';
 
   const title = document.createElement('h3');
-  title.textContent = product.nombre;
+  title.textContent = product.name;
 
   const description = document.createElement('p');
-  description.textContent = product.descripcion || 'Sin descripción';
+  description.textContent = product.description || 'Sin descripción';
 
   const price = document.createElement('p');
   price.className = 'price';
-  price.textContent = '$' + Number(product.precio).toFixed(2);
+  price.textContent = '$' + Number(product.price).toFixed(2);
 
   const stock = document.createElement('p');
   stock.textContent = stockText(product);
@@ -128,9 +128,9 @@ function createCard(product) {
 function openDetail(product) {
   selectedProduct = product;
 
-  detailName.textContent = product.nombre;
-  detailDescription.textContent = product.descripcion || 'Sin descripción';
-  detailPrice.textContent = 'Precio: $' + Number(product.precio).toFixed(2);
+  detailName.textContent = product.name;
+  detailDescription.textContent = product.description || 'Sin descripción';
+  detailPrice.textContent = 'Precio: $' + Number(product.price).toFixed(2);
   detailStock.textContent = 'Stock: ' + stockText(product);
 
   detailPopup.showModal();
@@ -145,9 +145,9 @@ function openForm(product) {
   if (product) {
     // Edit: fill the form with the data of the product
     formTitle.textContent = 'Editar producto';
-    nameInput.value = product.nombre;
-    descriptionInput.value = product.descripcion || '';
-    priceInput.value = product.precio;
+    nameInput.value = product.name;
+    descriptionInput.value = product.description || '';
+    priceInput.value = product.price;
     stockInput.value = product.stock;
   } else {
     // Create: the form stays empty
@@ -163,9 +163,9 @@ async function saveProduct(event) {
 
   // The product that we send to the backend
   const product = {
-    nombre: nameInput.value.trim(),
-    descripcion: descriptionInput.value.trim(),
-    precio: priceInput.value === '' ? null : Number(priceInput.value),
+    name: nameInput.value.trim(),
+    description: descriptionInput.value.trim(),
+    price: priceInput.value === '' ? null : Number(priceInput.value),
     stock: stockInput.value === '' ? null : Number(stockInput.value)
   };
 
@@ -196,7 +196,7 @@ async function saveProduct(event) {
 
 // ---------- DELETE: remove the selected product ----------
 async function deleteProduct() {
-  const sure = confirm('¿Eliminar "' + selectedProduct.nombre + '"? No se puede deshacer.');
+  const sure = confirm('¿Eliminar "' + selectedProduct.name + '"? No se puede deshacer.');
   if (!sure) {
     return;
   }
