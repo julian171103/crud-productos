@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "productos")
-public class Producto {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class Producto {
     private Integer stock;
 
     // JPA exige un constructor vacío
-    public Producto() {
+    public Product() {
     }
 
     public Long getId() {
